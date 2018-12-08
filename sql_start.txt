@@ -1,0 +1,199 @@
+用户表【可以同时开后台卖产品】
+    id 自增id
+    name 用户名
+    truename  真实姓名 【必须与银行卡一致】
+    bankcard  银行卡号
+    bankname  银行卡名称
+    password   加密后的密码
+    remember_token  记住我令牌
+    created_at   注册时间
+    updated_at   登陆时间
+    status 1前台 2后台申请中 3后台停用  4后台
+    google2fa-谷歌验证 后台必须，并且同时需要绑定邮箱【首次进入要求他绑定，忘记或者遗漏可以邮件找回】
+    wechatname 微信名称【需要多少个键待定】
+    openid_wx  微信id
+    wechatnickname  微信昵称
+    qq     QQ登陆【需要多少个键待定】
+    openid_qq  QQid
+    email  邮箱，pc手机直接注册用于验证与忘记密码谷歌验证等时找回
+    phone  手机号 用于验证与忘记密码谷歌验证等时找回
+    pid  上级id
+    ppid  所有上级id
+    bbid   所有下级id
+    money  账户余额
+    integral  积分
+    recommend  推荐商品【 存储商品id（多个都好隔开），如果不存在推荐的商品id则根据默认规则推荐 】
+
+域名绑定表
+    id    自增id
+    uid      对应用户id 【 默认打开全部域名 】
+    domain   域名
+    title    标题
+    keyword  关键词【多个用逗号隔开】
+    description  描述
+    bulletin     公告
+    supports     活动【 数组 】
+    avatar       商家主头像
+    pics         商家实景图片 【 数组，多个逗号隔开 】
+    infos        商家信息 【 数组，多个逗号隔开 】
+
+
+商家月统计
+    uid  用户id
+    score     综合平分，最高5
+    servicescore  服务态度，最高5
+    foodscore     商品平分，最高5
+    rankrate      等级率 【 高于周边商家百分之多少 】
+    ratingcount  总评论数
+    sellcount    月销售
+    createtime  当天时间
+
+公众号，小程序主表
+    id   主键
+    groupid  分组id
+    uid   用户对应id
+    default_acid  默认关联子号id
+    status  1启用 2停用
+    name   公众号名称
+    description  公众号描述
+    rank   排序
+    title_initial  公众号的首字母
+    createtime  公众号的创建时间
+
+公众号，小程序索引表
+    id   	主键
+    acid    关联id
+    hash    字符唯一标识
+    type    帐号类型，1公众号，2为易信，3为授权登录公众号，4为小程序
+    isconnect    是否接入成功，1为成功，0为失败
+    isdelete   是否删除【1正常  2删除】  tinyint
+
+公众号表
+    id   主键
+    acid  关联id
+    token  普通接入时验证token
+    encodingaeskey  加密秘钥
+    level 公众号类型，1为订阅号，2为服务号，3为认证订号，4为认证服务号
+    name  	公众号名称
+    account   公众号帐号
+    ...... 做到对接公众号再进行设置公众号表  更多需要的表可参考 http://s.we7.cc/index.php?c=wiki&do=view&id=1&list=133
+
+收款类型
+    id  自增id
+    name  收款类型 【1银行卡 2微信 3支付宝 ......】
+
+收款表
+    uid   用户对应银行卡
+    cid   收款类型
+    bankcard  银行卡或者支付宝微信等账号【 开启后台后需要 】
+    cardname   银行卡类型【建设等，银行卡需要，其他待定】
+    createtime  添加时间
+    updatetime  最后更改时间
+
+关键词关联表【商品标签】
+    id  自增id
+    name  名称
+
+品牌表
+    id  自增id
+    name  品牌名称
+
+商品分类表
+    id  自增id
+    name   分类名称
+    keywordsid  关键词对应id组【多个用逗号隔开】
+    description   分类描述
+    text   分类简介
+    pid   上级id
+    ppid  上级所有id
+    bbid  下级所有id组
+    type  0减 1折 2特 3票 4保【 特价等标识 】
+    sort       排序
+    attribute  属性 1首页显示 2不显示
+    imgicon   分类icon链接地址
+    recommend   是否推荐 1推荐 2或其他不推荐 默认2
+    deliverytime    上菜时间或送达时间
+
+商品表【金钱以int类型存储，*100】
+    id    自增id
+    uid   商家id
+    cid  城市id
+    status  商品状态  【1启用 2停用】
+    name  商品名称
+    keywordsid  关键词对应id【多个用逗号隔开】
+    description  商品描述
+    sid    分类id
+    unit   商品单位
+    sales   销量
+    bsales  基本销量【作假】
+    praise   点击量
+    bpraise  基本点击量【作假】
+    share   分享量
+    bshare  基本分享量【作假】
+    stock   库存
+    makeaddress  生产地址
+    makeaddressmap  生产地址定位
+    marketprice   市场价
+    sellingprice  销售价
+    costprice     成本价
+    freight       运费
+    limitpurchase  限购【0为不限】
+    minpurchase    最少购买量
+    integralselect  积分设置【0不能用积分 1只能积分兑换 2积分+现金支付 3 积分或者现金其中一种购买】
+    integral   等价积分【1积分=1分钱】
+    giftintegral  积分赠送【购买一份赠送多少积分】
+    image   商品图片
+    video   商品视频 【自己上传或者引入外部视频】
+    details   商品详情表
+    sellcount  月销售额
+    rating     好评率
+
+商品规格表
+    id   自增id【  编号】
+    marketprice   市场价
+    sellingprice  销售价
+    costprice     成本价
+    stock   库存
+
+订单表
+    id    编号
+    type  类型【普通支付，优惠支付等等】
+    paytype  优惠类型  【在线，线下等】
+    buyer    买家
+    bid     买家id
+    delivery  收货信息
+    comments   买家留言
+    simages  商品图
+    sname   商品名称
+    sprice   商品价格【单个】
+    snumber   商品数量
+    samount   实际支付价格【商家可以调整价格，不能低于商品的95%】
+    dstatus    【1待发货 2入库中  3发货中  4已发货  5配送中】
+    lid   物流id
+    loid  物流订单号
+
+
+物流  logistics
+    id  自增id
+    name  物流
+    price  物流价格【价格规则可以用json存储】
+
+城市表
+    id          ---  自增id
+    cid         ---  关联id
+    spell       ---  地区英文名
+    name        ---  地区中文名
+
+
+评论关联表
+    id          ---  自增id
+    gid         ---  商品id
+    uid         ---  关联用户id
+    rid         ---  评论关联id
+    username    ---  评论人名称
+    rateTime    ---  评论时间
+    score       ---  评分 1-5 【 五颗星 】
+    rateType    ---  好评或差评手势  1 好评 2中评 3差评
+    text        ---  评论描述
+    avatar      ---  评论人头像
+    recommend   ---  推荐标签【 关键词，多个用逗号隔开 】
